@@ -1,0 +1,22 @@
+{
+  "packageDirectories": [
+    {
+      "path": "force-app",
+      "default": true,
+      "package": "Easy Data Loading",
+      "versionName": "V1.0",
+      "versionNumber": "1.0.0.NEXT",
+      "versionDescription": "Easy Data Loading for NZC objects using ReceivedDocuments functionality",
+      "definitionFile": "config/project-scratch-def.json"
+    }
+  ],
+  "name": "Easy Data Loading Using ReceivedDocuments",
+  "namespace": "nzcdata",
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "57.0",
+  "packageAliases": {
+    "Easy Data Loading": "0Ho2w000000bmSTCAY",
+    "Easy Data Loading@0.1.0-1": "04t2w000008mqBrAAI",
+    "Easy Data Loading@0.1.0-2": "04t2w000008mqD9AAI"
+  }
+}

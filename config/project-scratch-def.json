@@ -1,0 +1,24 @@
+{
+  "orgName": "NZC Demo company",
+  "edition": "Developer",
+  "features": ["EnableSetPasswordInApi","SustainabilityApp","INDUSTRIESMFGREBATES", "IndustriesMfgTargets","TCRMForSustainability","DevelopmentWave","DataProcessingEngine"],
+  "settings": {
+    "lightningExperienceSettings": {
+      "enableS1DesktopEnabled": true
+    },
+    "mobileSettings": {
+      "enableS1EncryptedStoragePref2": false
+    },
+    "industriesSettings":{
+      "enableIndustriesRebates": true
+    },
+    "industriesManufacturingSettings":{
+      "enableIndManufacturing": true,
+      "enableIndustriesMfgTargets": true,
+      "enableIndustriesMfgAccountForecast":true,
+      "enableIndustriesMfgProgram":true,
+      "enableIndustriesMfgAdvForecast": true
+    }
+  }
+  
+}
