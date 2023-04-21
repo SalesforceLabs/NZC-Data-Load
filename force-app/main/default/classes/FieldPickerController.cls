@@ -1,63 +1,70 @@
 global with sharing class FieldPickerController {
-
+    
     @AuraEnabled(cacheable=true)
     public static List<Member> getObjects(List<String> availableObjectTypes) {
         List<Member> result = new List<Member>();
         Map<String, SObjectType> allTypes = Schema.getGlobalDescribe();
-
+        
         if (availableObjectTypes == null || availableObjectTypes.size() == 0) {
             availableObjectTypes = new List<String>(allowedStandardObjects.keySet());
         }
-
+        
         for (String objType : availableObjectTypes) {
-
-            Schema.DescribeSObjectResult describeObject = allTypes.get(objType).getDescribe();
-            String objectType = describeObject.getName();
-            String objectLabel = describeObject.getLabel();
-            Boolean isCustom = describeObject.isCustom();
-            result.add(new Member(objectType, objectLabel));
-            result.sort();
-
+            try{
+                Schema.DescribeSObjectResult describeObject = allTypes.get(objType).getDescribe();
+                String objectType = describeObject.getName();
+                String objectLabel = describeObject.getLabel();
+                Boolean isCustom = describeObject.isCustom();
+                result.add(new Member(objectType, objectLabel));
+                result.sort();
+            }
+            catch(Exception e){
+            /*object does not exist, silently exit*/
+        	}
         }
-
+        
         return result;
-
+        
     }
     @AuraEnabled(cacheable=true)
     public static List<Member> getPicklistValues(String objectApiName, String fieldName) {
-
+        
         List<Member> options = new List<Member>();
-
-        Schema.DescribeSObjectResult describeObject = Schema.getGlobalDescribe().get(objectApiName).getDescribe();
-        Map<String, Schema.SObjectField> fieldMap = describeObject.fields.getMap();
-        List<Schema.PicklistEntry> values = fieldMap.get(fieldName).getDescribe().getPickListValues();
-
-        for (Schema.PicklistEntry a : values) {
-            options.add(new Member(a.getValue(), a.getLabel()));
+        try{
+            Schema.DescribeSObjectResult describeObject = Schema.getGlobalDescribe().get(objectApiName).getDescribe();
+            Map<String, Schema.SObjectField> fieldMap = describeObject.fields.getMap();
+            List<Schema.PicklistEntry> values = fieldMap.get(fieldName).getDescribe().getPickListValues();
+            
+            for (Schema.PicklistEntry a : values) {
+                options.add(new Member(a.getValue(), a.getLabel()));
+            }
+            
+            options.sort();
         }
-
-        options.sort();
-
+        catch(Exception e){
+            /*object/picklist does not exist, silently exit*/
+        }
+        
         return options;
     }
-
-
+    
+    
     public class Member implements Comparable {
-
+        
         @AuraEnabled
         public String label;
         @AuraEnabled
         public String value;
-
+        
         public Member(String value, String label) {
             this.label = label;
             this.value = value;
         }
-
+        
         public Integer compareTo(Object compareTo) {
-
+            
             Member curMember = (Member) compareTo;
-
+            
             if (label == curMember.label) {
                 return 0;
             }
@@ -65,13 +72,13 @@ global with sharing class FieldPickerController {
                 return 1;
             }
             return -1;
-
+            
         }
-
+        
     }
-
+    
     private static Map<String, String> allowedStandardObjects = new Map<String, String>{
-            'Account' => 'Account',
+        'Account' => 'Account',
             'AccountPartner' => 'Account Partner',
             'Asset' => 'Asset',
             'AssetRelationship' => 'Asset Relationship',
@@ -126,5 +133,5 @@ global with sharing class FieldPickerController {
             'WorkOrder' => 'Work Order',
             'WorkOrderLineItem' => 'Work Order Line Item',
             'WorkType' => 'Work Type'
-    };
+            };
 }

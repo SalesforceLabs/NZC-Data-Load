@@ -508,7 +508,7 @@ export default class FlowCombobox extends LightningElement {
     }
 
     resetData(event) {
-        this.value = '';
+        this.value = encodeURI('');
         this.resetTypeOptions();
         this.closeOptionDialog();
     }
@@ -704,7 +704,8 @@ export default class FlowCombobox extends LightningElement {
         if (valueInput) {
             this.hasError = false;
             let isRef = isReference(valueInput.value);
-            this._value = removeFormatting(valueInput.value);
+            var labelValue = String(removeFormatting(valueInput.value));
+            this._value = labelValue;
             if (isRef) {
                 let typeOption = this.getTypeOption(this._value);
                 if (!typeOption) {
