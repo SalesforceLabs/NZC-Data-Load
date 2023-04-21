@@ -122,7 +122,7 @@ export default class FlowCombobox extends LightningElement {
 
     @api
     get value() {
-        return this._value;
+        return (this._value?this._value:'');
     }
 
     set value(value) {
@@ -508,7 +508,7 @@ export default class FlowCombobox extends LightningElement {
     }
 
     resetData(event) {
-        this.value = encodeURI('');
+        this.value = "";
         this.resetTypeOptions();
         this.closeOptionDialog();
     }
