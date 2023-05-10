@@ -8,7 +8,10 @@ import {
     removeFormatting,
     flowComboboxDefaults
 } from 'c/flowComboUtils';
+import secureFilters from '@salesforce/resourceUrl/securefilters';
+
 const OUTPUTS_FROM_LABEL = 'Outputs from '; 
+var js_encode = secureFilters.js;
 export default class FlowCombobox extends LightningElement {
     @api name;
     @api label;
@@ -508,7 +511,7 @@ export default class FlowCombobox extends LightningElement {
     }
 
     resetData(event) {
-        this.value = "";
+        this.value = js_encode("");
         this.resetTypeOptions();
         this.closeOptionDialog();
     }
@@ -704,8 +707,7 @@ export default class FlowCombobox extends LightningElement {
         if (valueInput) {
             this.hasError = false;
             let isRef = isReference(valueInput.value);
-            var labelValue = String(removeFormatting(valueInput.value));
-            this._value = labelValue;
+            this._value = js_encode(removeFormatting(valueInput.value));;
             if (isRef) {
                 let typeOption = this.getTypeOption(this._value);
                 if (!typeOption) {
